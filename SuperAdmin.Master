@@ -1,0 +1,325 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="SuperAdmin.Master.cs" Inherits="ZephyrSuperAdmin.SiteMaster" %>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head runat="server">
+    <title></title>
+    <link href="UI/_Styles/SuperAdmin.css" rel="Stylesheet" type="text/css" />
+     <link href="favicon.ico" rel="shortcut icon" type="image/x-icon" />
+    <script type="text/javascript" language="javascript">
+
+
+        function PreviousPage() {
+            history.back(1);
+        }
+
+        function NextPage() {
+            history.forward();
+        }
+        var myVar = setInterval(function () { myTimer() }, 1000);
+
+        function myTimer() {
+            var d = new Date();
+            var t = d.toLocaleTimeString();
+            if (document.getElementById("demo") != null)
+                document.getElementById("demo").innerHTML = t;
+        }
+
+        function getHiddenLoggedintoMedicare_Zadmin_DirectLoginValue() {
+            var hiddenVal = '';
+            hiddenVal = $('#hidden_LoggedintoMedicare_Zadmin_DirectLogin').val();
+            return hiddenVal;
+        }
+        function setHiddenLoggedintoMedicare_Zadmin_DirectLoginValue(value) {
+            $('#hidden_LoggedintoMedicare_Zadmin_DirectLogin').val(value);
+        }
+
+
+    </script>
+    <asp:ContentPlaceHolder ID="Head" runat="server"></asp:ContentPlaceHolder>
+</head>
+<body>
+    <form runat="server">
+        <link rel="stylesheet" type="text/css" href="../_Styles/Zephyr.css" />
+        <link rel="stylesheet" type="text/css" href="../_Styles/dhtmlwindow.css" />
+        <div class="container">
+            <div class="outer">
+                <div class="Header_main">
+                    <table width="100%" id="tblAppTitleBG">
+                        <tr>
+                            <td width="25%" align="left">
+                            <img width="200" height="60" id="imgAppLogo" src="../Images/superlogo.png" /></td>
+                            <td width="50%" class="TitleHeading" align="center" style="font-size: 24px">
+                                <label id="lblAppTitle"> KanTime Healthcare Administration <span style="color:red"><%=isReadOnly%></span></label></td>
+                            <td id="Zadmin_timer" width="25%" style="color: #44677a; line-height: 20px;" valign="top"><b>Welcome <%=LoginID%></b><br />
+                                <span id="clock">
+                                    <script language="JavaScript" type="text/javascript">
+                                        var dayarray = new Array("Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday")
+                                        var montharray = new Array("January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December")
+                                        function getthedate() {
+                                            var mydate = new Date()
+                                            var year = mydate.getYear()
+                                            if (year < 1000)
+                                                year += 1900
+                                            var day = mydate.getDay()
+                                            var month = mydate.getMonth()
+                                            var daym = mydate.getDate()
+                                            if (daym < 10)
+                                                daym = "0" + daym
+                                            var hours = mydate.getHours()
+                                            var minutes = mydate.getMinutes()
+                                            var seconds = mydate.getSeconds()
+                                            var dn = "AM"
+                                            if (hours >= 12)
+                                                dn = "PM"
+                                            if (hours > 12) {
+                                                hours = hours - 12
+                                            }
+                                            {
+                                                d = new Date();
+                                                Time24H = new Date();
+                                                Time24H.setTime(d.getTime() + (d.getTimezoneOffset() * 60000) + 3600000);
+                                                InternetTime = Math.round((Time24H.getHours() * 60 + Time24H.getMinutes()) / 1.44);
+                                                if (InternetTime < 10) InternetTime = '00' + InternetTime;
+                                                else if (InternetTime < 100) InternetTime = '0' + InternetTime;
+                                            }
+                                            if (hours == 0)
+                                                hours = 12
+                                            if (minutes <= 9)
+                                                minutes = "0" + minutes
+                                            if (seconds <= 9)
+                                                seconds = "0" + seconds
+                                            //change font size here
+                                            var cdate = dayarray[day] + ", " + daym + " " + montharray[month] + " " + year + " | " + hours + ":" + minutes + ":" + seconds + " " + dn + ""
+                                            if (document.all)
+                                                document.all.clock.innerHTML = cdate
+                                            else if (document.getElementById)
+                                                document.getElementById("clock").innerHTML = cdate
+                                            else
+                                                document.write(cdate)
+                                        }
+                                        if (!document.all && !document.getElementById)
+                                            getthedate()
+                                        function goforit() {
+                                            if (document.all || document.getElementById)
+                                                setInterval("getthedate()", 1000)
+                                        }
+                                        window.onload = goforit
+
+                                    </script>
+                                </span>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+
+                <div style="vertical-align: top; width: 100%; float: left">
+                    <table cellspacing="0" cellpadding="0" width="100%" border="0" style="border-collapse: collapse">
+                        <tr>
+                            <td class="topBar">
+                                <table width="100%" cellpadding="0" cellspacing="0" style="border-bottom: 1px solid #000; float: left">
+                                    <tr>
+
+                                        <td align="right" valign="top">
+                                            <div id="DivMainMenu" style="position: relative; height: 30px; float: right; width: 100%"
+                                                align="center">
+                                            </div>
+                                            <div id="oWindow" style="display: none; z-index: 100; position: absolute; text-align: left">
+                                                <iframe id="ifrm" frameborder="0" style="z-index: 100; position: absolute" scrolling="no"></iframe>
+                                                <div style="z-index: 100; position: relative; text-align: left" id="hidDiv">
+                                                </div>
+                                            </div>
+                                            <div id="oWindowSub" style="display: none; z-index: 100; position: absolute; text-align: left">
+                                                <iframe id="ifrmSub" frameborder="0" style="z-index: 100; position: absolute" scrolling="no"></iframe>
+                                                <div style="z-index: 100; position: relative; text-align: left" id="hidDivSub">
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <table width="100%" cellpadding="0" cellspacing="0" style="border-bottom: 1px solid #000; float: left">
+                                    <tr>
+                                        <td width="5%" align="left">
+                                            <a href="javascript:PreviousPage()">
+                                                <img id="Img1" alt="Back" border="0" width="17" height="17" src="UI/Images/back-icon.png" runat="server" /></a>
+                                        </td>
+                                        <td align="center" style="font-size: 14px; color: #000; font-family: Arial, Verdana, Helvetica, sans-serif;"
+                                            id="MasterPage_PageHeader"></td>
+                                        <td width="5%" align="right">
+                                            <a href="javascript:NextPage()">
+                                                <img id="Img2" alt="Next" border="0" width="17" height="17" src="UI/Images/next-icon.png" runat="server" /></a>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="inner">
+                    <!----------------->
+                    <asp:ContentPlaceHolder ID="MainContent" runat="server"></asp:ContentPlaceHolder>
+                    <!----------------->
+                </div>
+            </div>
+            <div class="footer" style="display: none">
+                <div style="width: 100%; height: 30px; background: #f37222; background-image: url(../Images/footer_bg.png); line-height: 25px; color: #FFFFFF; padding: 0px 10px">
+                    <table width="100%">
+                        <tr>
+                            <td align="left">Version: 6.4</td>
+                            <td align="right"><a href="#">Terms</a> | <a href="#">Privacy</a> | <a href="#">Help Center</a> | <a href="#">Feedback</a></td>
+                        </tr>
+                    </table>
+                </div>
+                <div style="width: 100%; height: 30px; line-height: 30px; padding: 0px 10px">© 2012-2013 Kantime. All rights reserved - e-mail: kantime@kantime.com</div>
+            <input type="hidden" id="hidden_LoggedintoMedicare_Zadmin_DirectLogin" name="SuperLoginClick" value="Yes"/>
+            </div>
+        </div>
+
+        <%-- Script Related to Menu Loading --%>
+        <script type="text/javascript">
+            function ShowMainMenu(adm, isPopUp, virDir, uType) {
+                var instanceType = "<%=instanceType%>";
+                SubMenuCount = 0;
+                SubMenuArray = new Array();
+                SubSubMenuArray = new Array();
+                UserType = uType;
+                permissions = 0;
+                MainMenuCount = 1;
+                virtualDir = virDir;
+                var isAdmin = 0;
+                _html = '<table cellpadding="0" cellspacing="0"  border="0" align="center" height="20px" width="100%"><tr>';
+                var MainDiv = document.getElementById('DivMainMenu');
+                BuildMainMenu(isAdmin, permissions, isPopUp);// To build the sub Main Menu items;	
+                _html += '</tr></table>';
+                MainDiv.innerHTML = _html;
+
+                switch (instanceType) {
+
+                    case "Training":
+                        $("#lblAppTitle").css('color', '#46b377');
+                        $("#lblAppTitle").html('KanTime Healthcare Administration - KTU' + ' <span style="color:red">' + '<%=isReadOnly%>' +'</span>');
+                        $('#Zadmin_timer').css('color', '#37945d');
+                        $("#imgAppLogo").attr("src", "<%=ZephyrSuperAdmin.Common.Utils.ApplicationVirtualPath%>/UI/Images/Zadmin_Training_topright_logo.png");
+                        break;
+
+                    case "Beta":
+                        $("#lblAppTitle").css('color', '#6f2709');
+                        $("#lblAppTitle").html('KanTime Healthcare Administration - Beta' + ' <span style="color:red">' + '<%=isReadOnly%>' +'</span>');
+                        $('#Zadmin_timer').css('color', '#bf3907');
+                        $("#imgAppLogo").attr("src", "<%=ZephyrSuperAdmin.Common.Utils.ApplicationVirtualPath%>/UI/Images/Zadmin_Beta_topright_logo.png");
+                        break;
+
+                    case "Sandbox":
+                        $("#lblAppTitle").css('color', '#ef58d0');
+                        $("#lblAppTitle").html('KanTime Healthcare Administration - Sandbox' + ' <span style="color:red">' + '<%=isReadOnly%>' +'</span>');
+                        $('#Zadmin_timer').css('color', '#d101a8');
+                        $("#imgAppLogo").attr("src", "<%=ZephyrSuperAdmin.Common.Utils.ApplicationVirtualPath%>/UI/Images/Zadmin_Sandbox_topright_logo.png");
+                        break;
+
+                    case "Demo":
+                        $("#lblAppTitle").css('color', '#ce8600');
+                        $("#lblAppTitle").html('KanTime Healthcare Administration - Demo' + ' <span style="color:red">' + '<%=isReadOnly%>' +'</span>');
+                        $('#Zadmin_timer').css('color', '#d08d12');
+                        $("#imgAppLogo").attr("src", "<%=ZephyrSuperAdmin.Common.Utils.ApplicationVirtualPath%>/UI/Images/Zadmin_Demo_topright_logo.png");
+                        break;
+
+                    case "Staging":
+                        $("#lblAppTitle").css('color', '#9970e0');
+                        $("#lblAppTitle").html('KanTime Healthcare Administration - Staging' + ' <span style="color:red">' + '<%=isReadOnly%>' +'</span>');
+                        $('#Zadmin_timer').css('color', '#693bb9');
+                        $("#imgAppLogo").attr("src", "<%=ZephyrSuperAdmin.Common.Utils.ApplicationVirtualPath%>/UI/Images/Zadmin_Staging_topright_logo.png");
+                        break;
+
+                    case "Developer":
+                        $("#lblAppTitle").css('color', '#ed3838');
+                        $("#lblAppTitle").html('KanTime Healthcare Administration - Developer' + ' <span style="color:red">' + '<%=isReadOnly%>' +'</span>');
+                        $('#Zadmin_timer').css('color', '#cc0000');
+                        $("#imgAppLogo").attr("src", "<%=ZephyrSuperAdmin.Common.Utils.ApplicationVirtualPath%>/UI/Images/Zadmin_Develop_topright_logo.png");
+                        break;
+
+                      case "OpsDemo":
+                        $("#lblAppTitle").css('color', '#990033');
+                        $("#lblAppTitle").html('KanTime Healthcare Administration - OpsDemo' + ' <span style="color:red">' + '<%=isReadOnly%>' +'</span>');
+                        $('#Zadmin_timer').css('color', '#660033');
+                        $("#imgAppLogo").attr("src", "<%=ZephyrSuperAdmin.Common.Utils.ApplicationVirtualPath%>/UI/Images/Zadmin_OpsDemo_topright_logo.png");
+                          break;
+
+                       case "Working":
+                           $("#lblAppTitle").css('color', '#840077');
+                        $("#lblAppTitle").html('KanTime Healthcare Administration - Working' + ' <span style="color:red">' + '<%=isReadOnly%>' +'</span>');
+                        $('#Zadmin_timer').css('color', '#840077');
+                        $("#imgAppLogo").attr("src", "<%=ZephyrSuperAdmin.Common.Utils.ApplicationVirtualPath%>/UI/Images/Zadmin_Working_topright_logo.png");
+                        break;
+
+                        
+                       case "WorkingDev":
+                           $("#lblAppTitle").css('color', '#6ca20e');
+                        $("#lblAppTitle").html('KanTime Healthcare Administration - Working' + ' <span style="color:red">' + '<%=isReadOnly%>' +'</span>');
+                        $('#Zadmin_timer').css('color', '#6ca20e');
+                        $("#imgAppLogo").attr("src", "<%=ZephyrSuperAdmin.Common.Utils.ApplicationVirtualPath%>/UI/Images/Zadmin_Working_topright_logo.png");
+                        break;
+
+                           
+                       case "LocalStaging":
+                           $("#lblAppTitle").css('color', '#c03167');
+                        $("#lblAppTitle").html('KanTime Healthcare Administration - Working' + ' <span style="color:red">' + '<%=isReadOnly%>' +'</span>');
+                        $('#Zadmin_timer').css('color', '#c03167');
+                        $("#imgAppLogo").attr("src", "<%=ZephyrSuperAdmin.Common.Utils.ApplicationVirtualPath%>/UI/Images/Zadmin_Working_topright_logo.png");
+                           break;
+
+                       case "localProd":
+                           $("#lblAppTitle").css('color', '#38aba6');
+                        $("#lblAppTitle").html('KanTime Healthcare Administration' + ' <span style="color:red">' + '<%=isReadOnly%>' +'</span>');
+                        $('#Zadmin_timer').css('color', '#38aba6');
+                        $("#imgAppLogo").attr("src", "<%=ZephyrSuperAdmin.Common.Utils.ApplicationVirtualPath%>/UI/Images/Zadmin_LocalProd_topright_logo.png");
+                           break;
+
+                    case "Recovery":
+                        $("#lblAppTitle").css('color', '#ef58d0');
+                        $("#lblAppTitle").html('KanTime Healthcare Administration - Recovery' + ' <span style="color:red">' + '<%=isReadOnly%>' +'</span>');
+                        $('#Zadmin_timer').css('color', '#d101a8');
+                        $("#imgAppLogo").attr("src", "<%=ZephyrSuperAdmin.Common.Utils.ApplicationVirtualPath%>/UI/Images/Zadmin_Sandbox_topright_logo.png");
+                        break;
+
+                    default:
+                        break;
+                }
+
+            }
+
+            function BuildMainMenu(Type, permissions, isPopUp) {
+            <%=this.mainMenuList%>
+            AddMainMenu("Logout", '../Common/Access_Logout.aspx', '5');
+        }
+
+        function BuildSubMenu(id) {
+            switch (id) {
+                <%=this.subMenuList%>
+            }
+        }
+            function BuildSubSubMenu(id) {
+                switch (id) {
+                <%=this.subSubMenuList%>
+            }
+        }
+
+            function AddMainMenu(item, link, idx, mainMenuId) {
+                idx = ',' + idx + ',';
+                AddLinks(item, link, idx, mainMenuId);
+                MainMenuCount++;
+            }
+
+
+        </script>
+
+        <%-- Drag menu here --%>
+        <script src="../_Scripts/Menu.js" type="text/javascript"></script>
+        <script language="JavaScript" type="text/javascript">ShowMainMenu('0', '0', '', '');</script>
+    </form>
+</body>
+</html>
+
